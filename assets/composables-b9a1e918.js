@@ -1,0 +1,1 @@
+import{r as o}from"./forms-5e524d78.js";const t=o(""),a=o(""),r=o(""),s=o(!1),u=o(),i=()=>({playYoutubeVideo:l=>{var e;t.value="youtube",a.value=l,(e=u.value)==null||e.show()},playHtml5Video:l=>{var e;t.value="html5",r.value=l,(e=u.value)==null||e.show()},modalRef:u,_youtubeEmbedUrl:a,_html5VideoUrl:r,_playerType:t,initOnce:s});export{i as useGlobalVideoPlayer};

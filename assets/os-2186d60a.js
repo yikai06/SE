@@ -1,0 +1,1 @@
+const t=()=>{let n=navigator.userAgent||navigator.vendor||window.opera,e="unknown";return/windows phone/i.test(n)&&(e="Windows Phone"),/android/i.test(n)&&(e="Android"),/iPad|iPhone|iPod/.test(n)&&!window.MSStream&&(e="iOS"),e};export{t as getMobileOperatingSystem};

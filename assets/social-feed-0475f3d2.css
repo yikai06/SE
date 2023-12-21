@@ -1,0 +1,1 @@
+.social-feed-item-content{opacity:0;visibility:hidden;transition:.3s ease}@media (min-width: 992px){.social-feed-item:hover .social-feed-item-content{opacity:100;visibility:visible}.social-feed-item-user-link{z-index:10}}
