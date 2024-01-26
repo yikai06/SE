@@ -1,0 +1,63 @@
+/*!
+ * Bootstrap v4.0.0 (https://getbootstrap.com)
+ * Copyright 2011-2018 The Bootstrap Authors
+ * Copyright 2011-2018 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+:root {
+  --base-color: #707070;
+  --white: #ffffff;
+  --white-1: #fafafa;
+  --black: #333333;
+  --primary-color: #c8102e;
+  --secondary-color: #14b3b8;
+  --text-color: #c8102e;
+  --dark-color: #707070;
+  --gray-color-1: #ebebeb;
+  --gray-color-2: #f2f2f2;
+  --gray-color-3: #cccccc;
+  --gray-color-4: #9e9e9e;
+  --danger-color: #ea0303;
+  --danger-color-1: #fbcdcd;
+  --warning-color: #ffba00;
+  --warning-color-1: #fff1cc;
+  --yellow-color: #ffcc00;
+  --yellow-color-1: #e5b805;
+  --pink-color: #ff6060;
+  --pink-color-1: #f44242;
+  --green-color: #a4d00c;
+  --green-color-1: #8bb204;
+  --blue-color: #0097b7;
+  --light-green-color: #00d6d0;
+  --dark-blue-color: #0c1fff;
+  --blue-color-1: #08768d;
+  --blue-color-2: #3b90a2;
+  --orange-color: #ff7f50;
+  --purple-color: #400c54;
+  --purple-color-1: #885c99;
+  --color-1: #8e9c5c;
+  --color-2: #78844f;
+  --bg-row-1: #f9f9f9;
+  --hover-bg-color: #00cbc5;
+  --primary-color-darken: #c8102e;
+  --secondary-color-darken: #c8102e;
+  --dark-color-darken: #575757;
+  --background-mobile: #ffffff;
+  --background-banner: url(https://cdn-v2.circuithq.com/images/idp/ff-header.jpg)
+    no-repeat;
+  --background-tablet: url(https://cdn-v2.circuithq.com/images/idp/ff-header.jpg)
+    no-repeat;
+  --background-desktop: url(https://cdn-v2.circuithq.com/images/idp/ff-header.jpg)
+    no-repeat;
+  --logo: url(http://localhost/SE-main/SE-main/media/project1/shared/base/logos/logo.jpg);
+  --logo-width: 205px;
+  --logo-height: 70px;
+  --logo-transform: translate(0);
+  --login-form-bg: #ffffff;
+  --login-spacing: 19px 0 0 -16px;
+  --banner-display: block;
+  --login-form-position: flex-start;
+  --language-spacing: 58px;
+  --brand-color: #c91430;
+}
+
