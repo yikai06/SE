@@ -1,4 +1,4 @@
-<?php $path = 'http://localhost/SE-main/SE-main/adm/'; ?>
+<?php $path = 'http://localhost/SE-main/adm/'; ?>
    
     </div>
     

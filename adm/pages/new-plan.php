@@ -8,16 +8,15 @@
     if ($_SERVER['REQUEST_METHOD'] == 'POST' ) {
         if (isset($_POST['submit'])) {
 	    $name = $_POST['name'];
-        $current_time = time();
-        $image = $current_time.'-'.($_FILES["image"]["name"]);
-        move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/task/" . $image);
+        $price = $_POST['price'];
+        
 
 
-        $mysqli->query("INSERT INTO $task (name, create_time, status, image, trash) VALUES ('".$name."','".$time."','active','".$image."','0')");
+        $mysqli->query("INSERT INTO $plan (name, create_time, status, price, trash) VALUES ('".$name."','".$time."','active','".$price."','0')");
 
         $page = $mysqli->insert_id;
                   
-        header('Location: task.php');
+        header('Location: plan.php');
 		exit ;
     }
 }
@@ -40,7 +39,7 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Add new task</h2>
+                            <h2 class="pageheader-title">Add new plan</h2>
                             <div class="page-breadcrumb">
                                 
                             </div>
@@ -60,20 +59,22 @@
                             <div class="card">
                                
                                 <div class="card-body">
-                                    <form  data-parsley-validate="" novalidate="" method="POST" action="" enctype="multipart/form-data">
+                                    <form  data-parsley-validate="" novalidate="" method="POST" action="">
                                         <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Task Name</label>
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Subcription Plan Name</label>
                                             <div class="col-12 col-sm-8 col-lg-6">
-                                                <input type="text" required="" placeholder="Task Name" class="form-control" name="name">
+                                                <input type="text" required="" placeholder="Plan Name" class="form-control" name="name">
                                             </div>
                                         </div>
                                         
                                         
                                         
-                                       <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Task Image</label>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Price</label>
                                             <div class="col-12 col-sm-8 col-lg-6">
-                                                 <input type="file" class="form-control-file" id="classImage" name="image">
+                                            <div class="input-group mb-3"><span class="input-group-prepend"><span class="input-group-text">MYR</span></span>
+                                                    <input type="text" placeholder="Price" class="form-control" name="price">
+                                            </div>
                                             </div>
                                         </div>
 

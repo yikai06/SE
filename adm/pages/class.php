@@ -1,3 +1,12 @@
+<?php
+    session_start();
+    include_once '../cms/connect.php' ;
+
+    $sql = "SELECT * FROM $class WHERE trash != '1' ";
+
+    $sql_plan = $mysqli->query($sql);
+
+?>
 <?php 
     include '../require/header.php' ;
 ?>
@@ -67,17 +76,25 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        <?php
+                                                    if ($sql_plan->num_rows > 0){
+                                                        while ($row_page = $sql_plan->fetch_array(MYSQLI_ASSOC)){
+                                                            
+                                                echo'
                                             <tr>
-                                                <th scope="row">CL001</th>
-                                                <td>Yoga</td>
-                                                <td>2024-01-08 11:55:24</td>
-                                                <td>ACTIVE</td>
+                                                <th scope="row">CL00'.$row_page['id'].'</th>
+                                                <td>'.$row_page['name'].'</td>
+                                                <td>'.$row_page['create_time'].'</td>
+                                                <td>'.$row_page['status'].'</td>
                                                 <td>
-                                                    <a href="class-edit.php"><i class="fas fa-edit"></i></a>
-                                                    <a href="#"><i class="fas fa-trash"></i></a>
+                                                    <a href="class-edit.php?type=&id='.$row_page['id'].'"><i class="fas fa-edit"></i></a>
+                                                    <a href="class-edit.php?type=del&id='.$row_page['id'].'"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
-                                            
+                                            ';
+                                            }
+                                                }
+                                        ?>   
                                         </tbody>
                                     </table>
                                 </div>

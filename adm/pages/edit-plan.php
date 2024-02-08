@@ -7,15 +7,15 @@
     $date = new DateTime(null, new DateTimeZone('Asia/Kuala_Lumpur'));
     $time = $date->format('Y-m-d H:i:s');
      
-    $sql = $mysqli->query("SELECT * FROM $class WHERE trash = '0' AND id = '".$page."'");
+    $sql = $mysqli->query("SELECT * FROM $plan WHERE trash = '0' AND id = '".$page."'");
     $sql_plan = $sql->fetch_assoc();
 
     if($type == "del") {
-        $sql_member = $mysqli->query("SELECT * FROM $class WHERE trash = '0' AND id = '".$page."'");
+        $sql_member = $mysqli->query("SELECT * FROM $plan WHERE trash = '0' AND id = '".$page."'");
         $row = $sql_member->fetch_assoc();
     ?>
         <script>
-            var confirmDelete = confirm("Do you want to delete <?=$row['name'];?> class?");
+            var confirmDelete = confirm("Do you want to delete <?=$row['name'];?> plan?");
     
             if (confirmDelete) {
                 
@@ -23,63 +23,51 @@
                 
                 
                 <?php
-                $mysqli->query("UPDATE $class SET trash = '1' WHERE id = '".$page."'");
+                $mysqli->query("UPDATE $plan SET trash = '1' WHERE id = '".$page."'");
 
                 ?>
             } else {
                 
-                alert("Deletion canceled. Class not deleted.");
+                alert("Deletion canceled. Plan not deleted.");
                 
             }
         </script>
     <?php
-        header('Location: class.php');
+        header('Location: plan.php');
     }
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' ) {
         if (isset($_POST['submit'])) {
             $name = $_POST['name'];
-	        $duration = $_POST['duration'];
-	        $detail = $_POST['detail'];
+            $price = $_POST['price'];
             $status = $_POST['status'];
-            $current_time = time();
-            $image2 = $_FILES["image"]["name"];
-
 
         $sql = '';
 		if($name != $sql_plan['name']){
 			$sql .= "name   = '".$name."',";
 		}
-        if($duration != $sql_plan['duration']){
-			$sql .= "duration   = '".$duration."',";
-		}
-        if($detail != $sql_plan['detail']){
-			$sql .= "detail  = '".$detail."',";
-		}
         if($status != $sql_plan['status']){
 			$sql .= "status  = '".$status."',";
 		}
-        if($image2 != ''){
-            $image = $current_time.'-'.($_FILES["image"]["name"]);
-			move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/class/" . $image);
-			$sql .= "image   = '".$image."',";
+        if($price != $sql_plan['price']){
+			$sql .= "price  = '".$price."',";
 		}
-        $mysqli->query("UPDATE $class SET 
+        $mysqli->query("UPDATE $plan SET 
 							".$sql."
                             create_time = '".$time."'
 						    WHERE id = '".$page."'" ); 
         ?>
         <script>
-        alert("Class detail update successful.");
+        alert("Task detail update successful.");
         {
-        window.location.href = "class-edit.php?id=<?php echo htmlentities($page); ?>";
+        window.location.href = "edit-plan.php?id=<?php echo htmlentities($page); ?>";
         };
     </script>
 <?php       
     }
 }
 
-$sql = "SELECT * FROM $class WHERE trash = '0' AND id = '".$page."'";
+$sql = "SELECT * FROM $plan WHERE trash = '0' AND id = '".$page."'";
 
 $sql_plan = $mysqli->query($sql);
 ?>
@@ -101,7 +89,7 @@ $sql_plan = $mysqli->query($sql);
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Class detail</h2>
+                            <h2 class="pageheader-title">Plan Detail</h2>
                             <div class="page-breadcrumb">
                                 
                             </div>
@@ -127,25 +115,12 @@ $sql_plan = $mysqli->query($sql);
                                             while ($row_page = $sql_plan->fetch_array(MYSQLI_ASSOC)){        
                                                 ?>
                                         <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Class Name</label>
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Subcription Plan Name</label>
                                             <div class="col-12 col-sm-8 col-lg-6">
-                                                <input type="text" required="" placeholder="Class Name" value="<?=$row_page['name'];?>" name="name" class="form-control">
+                                                <input type="text" required="" value="<?=$row_page['name'];?>" placeholder="Plan Name" class="form-control" name="name">
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Duration</label>
-                                            <div class="col-12 col-sm-8 col-lg-6">
-                                                <input type="text" required="" value="<?=$row_page['duration'];?>" name="duration" placeholder="Duration" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Detail</label>
-                                            <div class="col-12 col-sm-8 col-lg-6">
-                                            
-                                                <textarea placeholder="Enter details" name="detail" class="form-control"><?=$row_page['detail'];?></textarea>
-                                            
-                                            </div>
-                                        </div>
+                                        
                                         
                                         <div class="form-group row">
                                             <label class="col-12 col-sm-3 col-form-label text-sm-right">Status</label>
@@ -169,17 +144,12 @@ $sql_plan = $mysqli->query($sql);
                                             </div>
                                         </div>
                                         
-                                       <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Class Image</label>
-                                            <div class="col-12 col-sm-8 col-lg-6">
-                                                 <input type="file" class="form-control-file" id="classImage" name="image">
-                                            </div>
-                                        </div>
-
                                         <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Class Image</label>
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Price</label>
                                             <div class="col-12 col-sm-8 col-lg-6">
-                                                 <img src="<?=$pathss;?>image/class/<?=$row_page['image'];?>" id="previewImage" style="max-width: 100%; max-height: 200px; margin-top: 10px;">
+                                            <div class="input-group mb-3"><span class="input-group-prepend"><span class="input-group-text">MYR</span></span>
+                                                    <input type="text" placeholder="Price" class="form-control" name="price" value="<?=$row_page['price'];?>">
+                                            </div>
                                             </div>
                                         </div>
                                         <?php

@@ -1,5 +1,5 @@
-<?php $path = 'http://localhost/SE-main/SE-main/adm/'; ?>
-<?php $path1 = 'http://localhost/SE-main/SE-main/'; ?>
+<?php $path = 'http://localhost/SE-main/adm/'; ?>
+<?php $path1 = 'http://localhost/SE-main/'; ?>
 
 <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">

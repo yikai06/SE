@@ -2,7 +2,7 @@
     session_start();
     include_once '../cms/connect.php' ;
 
-    $sql = "SELECT * FROM $task WHERE trash != '1' ";
+    $sql = "SELECT * FROM $plan WHERE trash != '1' ";
 
     $sql_plan = $mysqli->query($sql);
 
@@ -24,7 +24,7 @@
         <div class="row"></div>
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card">
-                                <h5 class="card-header"><a href="new-task.php" class="btn btn-rounded btn-danger">Add new</a></h5>
+                                <h5 class="card-header"><a href="new-plan.php" class="btn btn-rounded btn-danger">Add new</a></h5>
                                 <div class="card-body">
                                     <form class="needs-validation" novalidate>
                                         <div class="row">
@@ -63,13 +63,13 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             
-                                <h5 class="card-header">Task Listing</h5>
+                                <h5 class="card-header">Plan Listing</h5>
                                 <div class="card-body">
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Task Code</th>
-                                                <th scope="col">Task Name</th>
+                                                <th scope="col">Plan Code</th>
+                                                <th scope="col">Plan Name</th>
                                                 <th scope="col">Created Date</th>
                                                 <th scope="col">Status</th>
                                                 <th scope="col">Operating</th>
@@ -82,13 +82,13 @@
                                                             
                                                 echo'
                                             <tr>
-                                                <th scope="row">TK00'.$row_page['id'].'</th>
+                                                <th scope="row">PL00'.$row_page['id'].'</th>
                                                 <td>'.$row_page['name'].'</td>
                                                 <td>'.$row_page['create_time'].'</td>
                                                 <td>'.$row_page['status'].'</td>
                                                 <td>
-                                                    <a href="task-edit.php?type=&id='.$row_page['id'].'"><i class="fas fa-edit"></i></a>
-                                                    <a href="task-edit.php?type=del&id='.$row_page['id'].'"><i class="fas fa-trash"></i></a>
+                                                    <a href="edit-plan.php?type=&id='.$row_page['id'].'"><i class="fas fa-edit"></i></a>
+                                                    <a href="edit-plan.php?type=del&id='.$row_page['id'].'"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                             ';

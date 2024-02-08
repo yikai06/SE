@@ -1,45 +1,88 @@
 <?php
     session_start();
     include_once '../cms/connect.php' ;
-    
-
-   
+    $page = $_GET['id'];
+    $type = $_GET['type'];
 
     $date = new DateTime(null, new DateTimeZone('Asia/Kuala_Lumpur'));
     $time = $date->format('Y-m-d H:i:s');
+     
+    $sql = $mysqli->query("SELECT * FROM $member WHERE trash = '0' AND id = '".$page."'");
+    $sql_plan = $sql->fetch_assoc();
+
+    if($type == "del") {
+        $sql_member = $mysqli->query("SELECT * FROM $member WHERE trash = '0' AND id = '".$page."'");
+        $row = $sql_member->fetch_assoc();
+    ?>
+        <script>
+            var confirmDelete = confirm("Do you want to delete <?=$row['email'];?> member?");
+    
+            if (confirmDelete) {
+                
+                alert("Member deleted successfully!");
+                
+                
+                <?php
+                $mysqli->query("UPDATE $member SET trash = '1' WHERE id = '".$page."'");
+                $mysqli->query("UPDATE role SET trash = '1' WHERE email = '".$row['email']."'");
+                ?>
+            } else {
+                
+                alert("Deletion canceled. Member not deleted.");
+            }
+        </script>
+    <?php
+        header('Location: member.php');
+    }
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' ) {
         if (isset($_POST['submit'])) {
 	    $name = $_POST['name'];
 	    $email = $_POST['email'];
 	    $phone = $_POST['phone'];
-        $password = $_POST['password'];
-        $secret_password = md5($password);
-        $plan = $_POST['plan'];
-        //$price = $_POST['price'];
-       
+        $first = $_POST['fname'];
+        $last = $_POST['lname'];
+        $age = $_POST['age'];
         $method = $_POST['payment_method'];
 
-
-        $mysqli->query("INSERT INTO payment (plan,payment_method,paid_time,trash) VALUES ('".$plan."','".$method."','".$time."','0')");
-        $page = $mysqli->insert_id;
-        $query = "INSERT INTO $member (username,email,phone,password,plan,payment,create_time,trash) VALUES ('".$name."','".$email."','".$phone."','".$secret_password."','".$plan."','".$page."','".$time."','0')";
-		
-        if ($mysqli->query($query)) {
-            
-            $pages = $mysqli->insert_id;
-            $sqlp .= "member   = '".$pages."'";
-            $mysqli->query("UPDATE payment SET 
-							".$sqlp."
-						    WHERE id = '".$page."'" );
-        }
-                  
-        header('Location: member.php');
-		exit ;
+        $sql = '';
+		if($name != $sql_plan['username']){
+			$sql .= "username   = '".$name."',";
+		}
+        if($email != $sql_plan['email']){
+			$sql .= "email   = '".$email."',";
+		}
+        if($phone != $sql_plan['phone']){
+			$sql .= "phone  = '".$phone."',";
+		}
+        if($first != $sql_plan['fullname']){
+			$sql .= "fullname   = '".$first."',";
+		}
+        if($last != $sql_plan['lastname']){
+			$sql .= "lastname   = '".$last."',";
+		}
+        if($age != $sql_plan['age']){
+			$sql .= "age   = '".$age."',";
+		}
+        if($method != $sql_plan['gender']){
+			$sql .= "gender   = '".$method."',";
+		}
+        $mysqli->query("UPDATE $member SET 
+							".$sql."
+                            create_time = '".$time."'
+						    WHERE id = '".$page."'" ); 
+        ?>
+        <script>
+        alert("Member detail update successful.");
+        {
+        window.location.href = "edit-member.php?id=<?php echo htmlentities($page); ?>";
+        };
+    </script>
+<?php       
     }
 }
 
-$sql = "SELECT * FROM $plan WHERE trash = '0' ";
+$sql = "SELECT * FROM $member WHERE trash = '0' AND id = '".$page."'";
 
 $sql_plan = $mysqli->query($sql);
 ?>
@@ -101,86 +144,67 @@ $sql_plan = $mysqli->query($sql);
                                
                                 <div class="card-body">
                                     <form data-parsley-validate="" novalidate="" method="POST" action="">
-                                        <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Username</label>
-                                            <div class="col-12 col-sm-8 col-lg-6">
-                                                <input type="text" required="" placeholder="Username" class="form-control" name="name">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Email</label>
-                                            <div class="col-12 col-sm-8 col-lg-6">
-                                                <input type="text" required="" placeholder="name@example.com" class="form-control" name="email">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Phone Number</label>
-                                            <div class="col-12 col-sm-8 col-lg-6">
-                                            <div class="input-group mb-3"><span class="input-group-prepend"><span class="input-group-text">+60</span></span>
-                                                    <input type="text" placeholder="Phone number" class="form-control" name="phone">
-                                            </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Password</label>
-                                                <div class="col-12 col-sm-8 col-lg-6">
-                                                <div class="password-input-container">
-                                                    <input id="inputPassword" type="password" placeholder="Password" class="form-control" name="password">
-                                                    <i class='fas fa-eye-slash toggle-password'></i>
-                                                </div>
-                                                </div>    
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Comfirm Password</label>
-                                            <div class="col-12 col-sm-8 col-lg-6">
-                                            <div class="password-input-container">
-                                                    <input id="inputPassword" type="password" placeholder="Comfirm Password" class="form-control">
-                                                    <i class='fas fa-eye-slash toggle-password'></i>
-                                            </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Subcription Plans</label>
-                                            <div class="col-12 col-sm-8 col-lg-6">
-                                               
-                                                <select class="form-control" name="plan" id="plan">
-                                                <?php
+                                    <?php
                                                     if ($sql_plan->num_rows > 0){
                                                         while ($row_page = $sql_plan->fetch_array(MYSQLI_ASSOC)){
                                                             
                                                 
                                                            
                                                 ?>
-                                                        <option value="<?=$row_page['id'];?>"><?=$row_page['name'];?></option>
-                                                <?php
-                                                     }
-                                                    }
-                                                ?>       
-                                                       
-                                                 </select>
-                                                
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Username</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="text" required="" value="<?=$row_page['username'];?>" placeholder="Username" class="form-control" name="name">
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Price</label>
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Email</label>
                                             <div class="col-12 col-sm-8 col-lg-6">
-                                                <input type="text"  value="" class="form-control" id="priceInput" name="price" disabled>
+                                                <input type="text" required="" placeholder="name@example.com" value="<?=$row_page['email'];?>" class="form-control" name="email">
                                             </div>
                                         </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Phone Number</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                            <div class="input-group mb-3"><span class="input-group-prepend"><span class="input-group-text">+60</span></span>
+                                                    <input type="text" placeholder="Phone number" value="<?=$row_page['phone'];?>" class="form-control" name="phone">
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">First Name</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="text" required="" value="<?=$row_page['fullname'];?>" placeholder="First Name" class="form-control" name="fname">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Last Name</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="text" required="" value="<?=$row_page['lastname'];?>" placeholder="Last Name" class="form-control" name="lname">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Age</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="text" required="" placeholder="age" value="<?=$row_page['age'];?>" class="form-control" name="age">
+                                            </div>
+                                        </div>
+                                        
                                        <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Payment Method</label>
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">Gender</label>
                                             <div class="col-12 col-sm-8 col-lg-6">
                                                 <label class="custom-control custom-radio custom-control-inline">
-                                                    <input type="radio" name="payment_method" value="cash" checked="" class="custom-control-input"><span class="custom-control-label">Cash</span>
+                                                    <input type="radio" name="payment_method" value="male" <?php echo ($row_page['gender'] == "male") ? 'checked' : ''; ?> class="custom-control-input"><span class="custom-control-label">Male</span>
                                                 </label>
                                                 <label class="custom-control custom-radio custom-control-inline">
-                                                    <input type="radio" name="payment_method" value="Online Trasfer" class="custom-control-input"><span class="custom-control-label">Online Transfer</span>
+                                                    <input type="radio" name="payment_method" value="female" <?php echo ($row_page['gender'] == "female") ? 'checked' : ''; ?>  class="custom-control-input"><span class="custom-control-label">Female</span>
                                                 </label>
                                             </div>
                                         </div>
-
+                                        <?php
+                                                        }
+                                                    }
+                                        ?>
                                         <div class="form-group row text-right">
                                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                                 <button name="submit" type="submit" class="btn btn-space btn-primary">Submit</button>
@@ -198,46 +222,7 @@ $sql_plan = $mysqli->query($sql);
                 
 </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // Attach onchange event to the dropdown
-        $('#plan').on('change', function () {
-            // Get the selected option's text
-            var selectedOption = $(this).find('option:selected').text();
 
-            // Check if the selected option's text is equal to 'normal'
-            if (selectedOption === 'normal') {
-                // Set the value of the disabled input to 255
-                $('#priceInput').val('MYR 255');
-            } else {
-                // Reset the value if it's not 'normal'
-                $('#priceInput').val('MYR 300');
-            }
-        });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const eyeIcon = document.querySelector(".toggle-password");
-        const passwordInput = document.getElementById("inputPassword");
-
-        eyeIcon.addEventListener("click", function() {
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                eyeIcon.classList.remove("fa-eye-slash");
-                eyeIcon.classList.add("fa-eye");
-            } else {
-                passwordInput.type = "password";
-                eyeIcon.classList.remove("fa-eye");
-                eyeIcon.classList.add("fa-eye-slash");
-            }
-        });
-    });
-
-    
-
-</script>
 <?php 
     include '../require/footer.php' ;
 ?>

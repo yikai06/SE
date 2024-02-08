@@ -1,3 +1,12 @@
+<?php
+    session_start();
+    include_once '../cms/connect.php' ;
+
+    $sql = "SELECT * FROM $trainer WHERE trash != '1' ";
+
+    $sql_plan = $mysqli->query($sql);
+
+?>
 <?php 
     include '../require/header.php' ;
 ?>
@@ -56,29 +65,28 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        <?php
+                                                    if ($sql_plan->num_rows > 0){
+                                                        while ($row_page = $sql_plan->fetch_array(MYSQLI_ASSOC)){
+                                                            
+                                                echo'
+                                                           
+                                                
                                             <tr>
-                                                <td>Tiger Nixon</td>
-                                                <td>System Architect</td>
-                                                <td>123456789</td>
-                                                <td>61</td>
-                                                <td>2011/04/25</td>
+                                                <td>'.$row_page['username'].'</td>
+                                                <td>'.$row_page['email'].'</td>
+                                                <td>+60 '.$row_page['phone'].'</td>
+                                                <td>'.$row_page['age'].'</td>
+                                                <td>'.$row_page['create_time'].'</td>
                                                 <td>
-                                                    <a href="#"><i class="fas fa-edit"></i></a>
-                                                    <a href="#"><i class="fas fa-trash"></i></a>
+                                                    <a href="edit-trainer.php?id='.$row_page['id'].'"><i class="fas fa-edit"></i></a>
+                                                    <a href="edit-trainer.php?type=del&id='.$row_page['id'].'"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>Garrett Winters</td>
-                                                <td>Accountant</td>
-                                                <td>123456789</td>
-                                                <td>63</td>
-                                                <td>2011/07/25</td>
-                                                <td>
-                                                    <a href="#"><i class="fas fa-edit"></i></a>
-                                                    <a href="#"><i class="fas fa-trash"></i></a>
-                                                </td>
-                                            </tr>
-                                            
+                                            ';
+                                            }
+                                                    }
+                                        ?>
                                         </tbody>
                                         <tfoot>
                                             <tr>

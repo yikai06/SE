@@ -1,3 +1,14 @@
+<?php
+    session_start();
+    include_once '../cms/connect.php' ;
+
+    $sql = "SELECT * FROM $payment WHERE trash != '1' ";
+
+    $sql_plan = $mysqli->query($sql);
+
+    
+    
+?>
 <?php 
     include '../require/header.php' ;
 ?>
@@ -79,25 +90,44 @@
                                                 <th scope="col">Member</th>
                                                 <th scope="col">Subcribe Plan</th>
                                                 <th scope="col">Payment Method</th>
-                                                <th scope="col">Status</th>
+                                                <th scope="col">Amount</th>
                                                 <th scope="col">Operating</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        <?php
+                                                    if ($sql_plan->num_rows > 0){
+                                                        while ($row_page = $sql_plan->fetch_array(MYSQLI_ASSOC)){
+                                                            
+                                                echo'
                                             <tr>
-                                                <th scope="row">SF12345</th>
-                                                <td>2024-01-08 11:55:24</td>
-                                                <td>Cindy khey</td>
-                                                <td>Normal</td>
-                                                <td>Online Transfer</td>
-                                                <td>Paid</td>
+                                                <th scope="row">PY00'.$row_page['id'].'</th>
+                                                <td>'.$row_page['paid_time'].'</td>';
+                                                $sql_member = $mysqli->query("SELECT * FROM $member WHERE trash != '1' AND payment = '".$row_page['id']."'");
+    
+                                                $row = $sql_member->fetch_assoc();
+                                                echo'
+                                                <td>'.$row['username'].'
+                                                <br>'.$row['email'].'
+                                                <br>'.$row['phone'].'
+                                                </td>';
+                                                $sql_plan2 = $mysqli->query("SELECT * FROM $plan WHERE trash != '1' AND id = '".$row_page['plan']."'");
+    
+                                                $rowp = $sql_plan2->fetch_assoc();
+                                                echo'
+                                                <td>'.$rowp['name'].'</td>
+                                                <td>'.$row_page['payment_method'].'</td>
+                                                <td>MYR '.$rowp['price'].'</td>
                                                 <td>
-                                                    <a href="#"><i class="fas fa-edit"></i></a>
+                                                    
                                                     <a href="#"><i class="fas fa-trash"></i></a>
                                                     <a href="#"><i class="fas fa-print"></i></a>
                                                 </td>
                                             </tr>
-                                            
+                                            ';
+                                        }
+                                                }
+                                    ?>       
                                         </tbody>
                                     </table>
                                 </div>
