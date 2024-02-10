@@ -1,4 +1,10 @@
 <?php
+session_start();
+include_once '../cms/connect.php' ;
+$sql = "SELECT * FROM $class WHERE trash = '0'";
+$sql_plan = $mysqli->query($sql);
+?>
+<?php
 include '../require/header.php';
 ?>
 <?php
@@ -30,19 +36,22 @@ include '../require/menu4.php';
       </div>
       <!-- Change the card images-->
       <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+      <?php
+                            if ($sql_plan->num_rows > 0) {
+                                while ($row_page = $sql_plan->fetch_array(MYSQLI_ASSOC)) {
+                                  echo'
         <div class="col">
-          <a href="member-class-details.php">
+          <a href="member-class-details.php?id='.$row_page['id'].'">
             <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-              style="background-image: url('unsplash-photo-1.jpg');height: auto !important;">
+              style="background-image: url('.$pathss.'image/class/'.$row_page['image'].');height: auto !important;">
               <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Karate</h3>
+                <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">'.$row_page['name'].'</h3>
                 <ul class="d-flex list-unstyled mt-auto">
                   <li class="d-flex align-items-center me-3">
                     <svg class="bi me-2" width="1em" height="1em">
                       <use xlink:href="#geo-fill"></use>
                     </svg>
-                    <small class="text-dark">Karate emphasizes disciplined training, self-defense, and the development
-                      of physical and mental strength.
+                    <small class="text-dark">'.$row_page['detail'].'
                     </small>
                   </li>
                 </ul>
@@ -50,46 +59,9 @@ include '../require/menu4.php';
             </div>
           </a>
         </div>
-
-        <div class="col">
-          <a href="member-class-details.php">
-            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-              style="background-image: url('unsplash-photo-2.jpg');height: auto !important;">
-              <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Tai Chi</h3>
-                <ul class="d-flex list-unstyled mt-auto">
-                  <li class="d-flex align-items-center me-3">
-                    <svg class="bi me-2" width="1em" height="1em">
-                      <use xlink:href="#geo-fill"></use>
-                    </svg>
-                    <small class="text-dark">Tai Chi involves slow, flowing movements, deep breathing, and a focus on
-                      internal energy.</small>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <div class="col">
-          <a href="member-class-details.php">
-            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-              style="background-image: url('unsplash-photo-3.jpg');height: auto !important;">
-              <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-                <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Yoga Class</h3>
-                <ul class="d-flex list-unstyled mt-auto">
-                  <li class="d-flex align-items-center me-3">
-                    <svg class="bi me-2" width="1em" height="1em">
-                      <use xlink:href="#geo-fill"></use>
-                    </svg>
-                    <small class="text-dark">Yoga aims to achieve balance and harmony in the body, mind, and spirit. It
-                      promotes flexibility, and relaxation.</small>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </a>
-        </div>
+                               '; }
+                              }
+        ?>
       </div>
     </div>
     <!-- ============================================================== -->

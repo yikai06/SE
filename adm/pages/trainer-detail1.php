@@ -1,3 +1,27 @@
+<?php
+session_start();
+include_once '../cms/connect.php' ;
+$page = $_GET['id'];
+$sql_member = $mysqli->query("SELECT * FROM $trainer WHERE trash = '0' AND id = '".$page."'");
+$row = $sql_member->fetch_assoc();
+$date = new DateTime(null, new DateTimeZone('Asia/Kuala_Lumpur'));
+    $time = $date->format('Y-m-d H:i:s');
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['submit'])) {
+		$train = $row['email'];
+		$memb = $_SESSION['email'];
+
+		$mysqli->query("INSERT INTO meet (member,trainer,time,trash) VALUES ('".$memb."','".$train."','".$time."','0')");
+        
+		?>
+		<script>
+            alert('Already book the trainer,wait for trainer reply you.');
+            window.location.href = '../dashboard.php';
+        </script>
+		<?php
+	}
+}
+?>
 <?php 
     include '../require/header.php' ;
 ?>
@@ -111,8 +135,8 @@ ul.t-details{
 					<div class="trainer">
 						
 						<div class="trainer-info">
-						<img src="/SE-main/images/Person/Personicon.png">
-						<h3>Nicholas PERSONAL TRAINER</h3>
+						<img src="<?=$pathss;?>image/trainer/<?=$row['image'];?>">
+						<h3><?=$row['username'];?> PERSONAL TRAINER</h3>
 						&nbsp;
 						<p><strong>NASM-Certified Personal Trainer (NASM-CPT)</strong></p>	
 						</div>
@@ -144,9 +168,11 @@ ul.t-details{
 						</div>
 						<div class="detail-1">
 							<h3>Nicholas said:</h3>
-								<p>"Empowering clients through education, personalized training and a focus on long-term health. I believe in creating sustainable habits that lead to lasting fitness transformation."</p>
+								<p>"<?=$row['info'];?>"</p>
 						</div>
-						<button class="book-now">Book Now</button>			
+						<form method="POST" action="">
+						<button name="submit" class="book-now">Book Now</button>	
+</form>		
 					</div>	
 				</div>
 			</div>

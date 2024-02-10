@@ -1,20 +1,28 @@
+<?php
+session_start();
+include_once '../cms/connect.php' ;
+
+$sql_member = $mysqli->query("SELECT * FROM timetable WHERE trash = '0' AND trainer = '".$_SESSION['email']."'");
+$row = $sql_member->fetch_array();
+print_r($row);exit;
+?>
 <?php 
     include '../require/header.php' ;
 ?>
 <script>document.getElementsByTagName("html")[0].className += " js";</script>
 <link rel="stylesheet" href="assets/css/style.css">
 <?php 
-    include '../require/top2.php' ;
+    include '../require/top.php' ;
 ?>
         
 <?php 
-    include '../require/menu3.php' ;
+    include '../require/menu.php' ;
 ?>
 
 <div class="dashboard-wrapper">
             <div class="container-fluid  dashboard-content">
                <div class="card">
-                                <h5 class="card-header"><a href="new-time.php" class="btn btn-rounded btn-danger">Add new</a></h5>
+                    <h5 class="card-header"><a href="new-time.php" class="btn btn-rounded btn-danger">Add new</a></h5>
                 <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
     <div class="cd-schedule__timeline">
       <ul>
@@ -46,23 +54,18 @@
           <div class="cd-schedule__top-info"><span>Monday</span></div>
   
           <ul>
-            <li class="cd-schedule__event">
-              <a data-start="09:30" data-end="10:30" data-content="event-abs-circuit" data-event="event-1" href="#0">
-                <em class="cd-schedule__name">Abs Circuit</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="11:00" data-end="12:30" data-content="event-rowing-workout" data-event="event-2" href="#0">
-                <em class="cd-schedule__name">Rowing Workout</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="14:00" data-end="15:15"  data-content="event-yoga-1" data-event="event-3" href="#0">
-                <em class="cd-schedule__name">Yoga Level 1</em>
-              </a>
-            </li>
+          <?php
+                                        if ($sql_plan->num_rows > 0){
+                                            while ($row_page = $sql_plan->fetch_array(MYSQLI_ASSOC)){        
+
+                    if($row_page['day']=='monday'){
+                      echo '<li class="cd-schedule__event"><a data-start="'.$row_page['from'].'" data-end="'.$row_page['to'].'" data-content="event-abs-circuit" data-event="event-1" >
+                      <em class="cd-schedule__name">'.$row_page['member'].'</em>
+                    </a></li>';
+                    }
+                }
+                                        }
+            ?>
           </ul>
         </li>
   
@@ -70,29 +73,18 @@
           <div class="cd-schedule__top-info"><span>Tuesday</span></div>
   
           <ul>
-            <li class="cd-schedule__event">
-              <a data-start="10:00" data-end="11:00"  data-content="event-rowing-workout" data-event="event-2" href="#0">
-                <em class="cd-schedule__name">Rowing Workout</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="11:30" data-end="13:00"  data-content="event-restorative-yoga" data-event="event-4" href="#0">
-                <em class="cd-schedule__name">Restorative Yoga</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="13:30" data-end="15:00" data-content="event-abs-circuit" data-event="event-1" href="#0">
-                <em class="cd-schedule__name">Abs Circuit</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="15:45" data-end="16:45"  data-content="event-yoga-1" data-event="event-3" href="#0">
-                <em class="cd-schedule__name">Yoga Level 1</em>
-              </a>
-            </li>
+          <?php
+                                        if ($sql_plan->num_rows > 0){
+                                            while ($row_page = $sql_plan->fetch_array(MYSQLI_ASSOC)){        
+
+                    if($row_page['day']=='tuesday'){
+                      echo '<li class="cd-schedule__event"><a data-start="'.$row_page['from'].'" data-end="'.$row_page['to'].'" data-content="event-abs-circuit" data-event="event-1" >
+                      <em class="cd-schedule__name">'.$row_page['member'].'</em>
+                    </a></li>';
+                    }
+                }
+                                        }
+            ?>
           </ul>
         </li>
   
@@ -100,29 +92,20 @@
           <div class="cd-schedule__top-info"><span>Wednesday</span></div>
   
           <ul>
-            <li class="cd-schedule__event">
-              <a data-start="09:00" data-end="10:15" data-content="event-restorative-yoga" data-event="event-4" href="#0">
-                <em class="cd-schedule__name">Restorative Yoga</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="10:45" data-end="11:45" data-content="event-yoga-1" data-event="event-3" href="#0">
-                <em class="cd-schedule__name">Yoga Level 1</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="12:00" data-end="13:45"  data-content="event-rowing-workout" data-event="event-2" href="#0">
-                <em class="cd-schedule__name">Rowing Workout</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="13:45" data-end="15:00" data-content="event-yoga-1" data-event="event-3" href="#0">
-                <em class="cd-schedule__name">Yoga Level 1</em>
-              </a>
-            </li>
+          <?php
+                                        if ($sql_plan->num_rows > 0){
+                                            while ($row_page = $sql_plan->fetch_array(MYSQLI_ASSOC)){        
+                for($i=0;$i<2;$i++){
+                  
+                    if($row_page[$i]['day']=='wednesday'){
+                      echo '<li class="cd-schedule__event"><a data-start="'.$row_page['from'].'" data-end="'.$row_page['to'].'" data-content="event-abs-circuit" data-event="event-1" >
+                      <em class="cd-schedule__name">'.$row_page['member'].'</em>
+                    </a></li>';
+                    }
+                    }
+                }
+                                        }
+            ?>
           </ul>
         </li>
   
@@ -130,29 +113,18 @@
           <div class="cd-schedule__top-info"><span>Thursday</span></div>
   
           <ul>
-            <li class="cd-schedule__event">
-              <a data-start="09:30" data-end="10:30" data-content="event-abs-circuit" data-event="event-1" href="#0">
-                <em class="cd-schedule__name">Abs Circuit</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="12:00" data-end="13:45" data-content="event-restorative-yoga" data-event="event-4" href="#0">
-                <em class="cd-schedule__name">Restorative Yoga</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="15:30" data-end="16:30" data-content="event-abs-circuit" data-event="event-1" href="#0">
-                <em class="cd-schedule__name">Abs Circuit</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="17:00" data-end="18:30"  data-content="event-rowing-workout" data-event="event-2" href="#0">
-                <em class="cd-schedule__name">Rowing Workout</em>
-              </a>
-            </li>
+          <?php
+                                        if ($sql_plan->num_rows > 0){
+                                            while ($row_page = $sql_plan->fetch_array(MYSQLI_ASSOC)){        
+
+                    if($row_page['day']=='thursday'){
+                      echo '<li class="cd-schedule__event"><a data-start="'.$row_page['from'].'" data-end="'.$row_page['to'].'" data-content="event-abs-circuit" data-event="event-1" >
+                      <em class="cd-schedule__name">'.$row_page['member'].'</em>
+                    </a></li>';
+                    }
+                }
+                                        }
+            ?>
           </ul>
         </li>
   
@@ -160,23 +132,18 @@
           <div class="cd-schedule__top-info"><span>Friday</span></div>
   
           <ul>
-            <li class="cd-schedule__event">
-              <a data-start="10:00" data-end="11:00"  data-content="event-rowing-workout" data-event="event-2" href="#0">
-                <em class="cd-schedule__name">Rowing Workout</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="12:30" data-end="14:00" data-content="event-abs-circuit" data-event="event-1" href="#0">
-                <em class="cd-schedule__name">Abs Circuit</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="15:45" data-end="16:45"  data-content="event-yoga-1" data-event="event-3" href="#0">
-                <em class="cd-schedule__name">Yoga Level 1</em>
-              </a>
-            </li>
+          <?php
+                                        if ($sql_plan->num_rows > 0){
+                                            while ($row_page = $sql_plan->fetch_array(MYSQLI_ASSOC)){        
+
+                    if($row_page['day']=='friday'){
+                      echo '<li class="cd-schedule__event"><a data-start="'.$row_page['from'].'" data-end="'.$row_page['to'].'" data-content="event-abs-circuit" data-event="event-1" >
+                      <em class="cd-schedule__name">'.$row_page['member'].'</em>
+                    </a></li>';
+                    }
+                }
+                                        }
+            ?>
           </ul>
         </li>
       </ul>

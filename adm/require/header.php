@@ -1,7 +1,8 @@
-<?php $path = 'http://localhost/SE-main/adm/'; ?>
+<?php $path = 'http://localhost/SE-main/adm/'; 
+$v='?v=1.1.21';?>
 <!doctype html>
 <html lang="en">
- 
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">

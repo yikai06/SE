@@ -24,7 +24,7 @@
         <div class="row"></div>
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card">
-                                <h5 class="card-header"><a href="new-member.php" class="btn btn-rounded btn-danger">Export Excel</a></h5>
+                                <h5 class="card-header"><a href="export-payment.php" class="btn btn-rounded btn-danger">Export Excel</a></h5>
                                 <div class="card-body">
                                     <form class="needs-validation" novalidate>
                                         <div class="row">

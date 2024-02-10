@@ -52,4 +52,7 @@ if ($mysqli->connect_errno) {
 
 }
 
+
+define('COMPANY', 'SweatLab Fitness Club') ;
+
 ?>

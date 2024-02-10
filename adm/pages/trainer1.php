@@ -1,3 +1,9 @@
+<?php
+session_start();
+include_once '../cms/connect.php' ;
+$sql = "SELECT * FROM $trainer WHERE trash = '0'";
+$sql_plan = $mysqli->query($sql);
+?>
 <?php 
     include '../require/header.php' ;
 ?>
@@ -98,51 +104,32 @@ ul.t-details{
                 <!-- ============================================================== -->
                 <!-- end pageheader -->
                 <!-- ============================================================== -->
-                
+                <?php
+                            if ($sql_plan->num_rows > 0) {
+                                while ($row_page = $sql_plan->fetch_array(MYSQLI_ASSOC)) {
+									?>
 				<div class="wrapper">
 					<h1>Trainers</h1>
 					<div class="container">
 						<div class="box">
-							<img src="/SE-main/images/Person/Personicon.png">
+							<img src="<?=$pathss;?>image/trainer/<?=$row_page['image'];?>">
 							<div class="details">
-								<h3>Nicholas</h3>
+								<h3><?=$row_page['username'];?></h3>
 								<ul class="t-details">
-									<li>NASM-Certified Personal Trainer(NASM-CPT)</li>
-									<li>Rehab for clients with past injuries</li>
-									<li>8 years of experience</li>
-									<li>English (Fluent)</li>
+									<li>Phone Number : +60 <?=$row_page['username'];?></li>
+									<li><?=$row_page['age'];?> years of experience</li>
+
 								</ul>
 							</div>
-							<a href="trainer-detail.php" class="btn">View details</a>
+							<a href="trainer-detail1.php?id=<?=$row_page['id'];?>" class="btn">View details</a>
 						</div>
-						<div class="box">
-							<img src="/SE-main/images/Person/Personicon.png">
-							<div class="details">
-								<h3>May Chan</h3>
-								<ul class="t-details">
-									<li>NASM-Certified Personal Trainer(NASM-CPT)</li>
-									<li>Weight Loss Specialist</li>
-									<li>5 years of experience</li>
-									<li>Chinese, English (Fluent)</li>
-								</ul>
-							</div>
-							<a href="trainer-detail.php" class="btn">View details</a>
-						</div>
-						<div class="box">
-							<img src="/SE-main/images/Person/Personicon.png">
-							<div class="details">
-								<h3>May Chan</h3>
-								<ul class="t-details">
-									<li>NASM-Certified Personal Trainer(NASM-CPT)</li>
-									<li>Weight Loss Specialist</li>
-									<li>5 years of experience</li>
-									<li>Chinese, English (Fluent)</li>
-								</ul>
-							</div>
-							<a href="trainer-detail.php" class="btn">View details</a>
-						</div>
+						
 					</div>
 				</div>
+				<?php
+								}
+							}
+							?>
 		</div>
 </div>
 
